@@ -21,6 +21,26 @@ endif()
 set(PROJECT_COMPANY_NAME "Oleg Shparber")
 set(PROJECT_COPYRIGHT "© 2013-2024 Oleg Shparber and other contributors")
 
+##############################################################################
+### Fix configuration for MacOS Intel/Apple Silicon chips ####################
+##############################################################################
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    # Homebrew ships libarchive keg only, include dirs have to be set manually
+    # execute_process(
+    #     COMMAND brew --prefix libarchive
+    #     OUTPUT_VARIABLE LIBARCHIVE_PREFIX
+    #     OUTPUT_STRIP_TRAILING_WHITESPACE
+    #     COMMAND_ERROR_IS_FATAL ANY
+    # )
+    set(LibArchive_INCLUDE_DIR "/usr/local/opt/libarchive/include")
+
+    #set(LibArchive_INCLUDE_DIR "${LIBARCHIVE_PREFIX}/include")
+endif()
+find_package(LibArchive REQUIRED)
+##############################################################################
+##############################################################################
+##############################################################################
+
 # Find available major Qt version. It will be stored in QT_VERSION_MAJOR.
 if(NOT ZEAL_USE_QT5)
     find_package(QT NAMES Qt6 COMPONENTS Core)
@@ -39,7 +59,11 @@ if(NOT ZEAL_RELEASE_BUILD)
     message(NOTICE "Building unreleased code. Proceed at your own risk!")
 
     # TODO: Add support for metadata passed from env, e.g. aur, appimage, etc.
-    include(GetVersionFromGit)
+    ############################
+    ## Fix for build on MacOS ##
+    ############################
+    # include(GetVersionFromGit)
+
     if(Zeal_GIT_VERSION_SHA)
         # Extra check in case we forgot to bump version in project() directive.
         if(NOT PROJECT_VERSION_PATCH EQUAL Zeal_GIT_VERSION_PATCH_NEXT)

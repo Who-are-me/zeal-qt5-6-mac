@@ -1,3 +1,25 @@
+# Fork of Zeal app for read offline documentation for MacOS Intel/Apple Silicon chips
+
+## Forked version 0.7.3
+## Forked commit 48289b9378fb59d908f54b0585c4b0fe0e7b319e
+
+## Changes of original
+### Add fix to build on MacOS
+### Add binary app (version 0.7.3 intel)
+
+## For build from source code
+
+```sh
+brew install libarchive
+# in folder of project
+mkdir build
+cd build
+cmake ..
+make
+```
+
+## Below original README
+
 # Zeal
 
 [![Changelog](https://img.shields.io/github/release/zealdocs/zeal.svg?style=flat-square)](https://github.com/zealdocs/zeal/releases)
